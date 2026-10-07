@@ -1,0 +1,22 @@
+V remains unchanged after first n1 years.
+The loan is amortized over (n3 - n1) * m periods.
+
+The regular payment is calculated by:
+PMT_old = V * i1 / (1 - (1 + i1)^(-N)), where i1 = r1 / m, N = (n3 - n1) * m.
+
+At year n2, there are K = (n3 - n2) * m payments remaining.
+The remaining balance is the present value of these remaining payments:
+B = PMT_old * (1 - (1 + i1)^(-K)) / i1.
+
+The refinanced loan payment is:
+PMT_new = B * i2 / (1 - (1 + i2)^(-K)), where i2 = r2 / m.
+
+The periodic payment saving is Delta_PMT = PMT_old - PMT_new.
+Interest Saved = Delta_PMT * K.
+The upfront refinancing cost is C0 = F + alpha * B
+
+The periodic IRR y satisfies:
+C0 = Delta_PMT * (1 - (1 + y)^(-K)) / y.
+The program solves for y using binary search.
+
+Finally, the annualized net IRR = m * y.
