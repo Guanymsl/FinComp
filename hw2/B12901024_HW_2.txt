@@ -1,0 +1,22 @@
+The principal-plus-coupon amount at maturity is:
+A = D * (1 + c * T).
+
+The terminal payoff in domestic currency is:
+Payoff = A if S_T >= X, and A * S_T / X otherwise.
+Equivalently, Payoff = A - (A / X) * max(X - S_T, 0).
+
+Thus, the note is equivalent to a zero-coupon bond paying A minus (A / X) European FX put options.
+
+Under the Garman-Kohlhagen model:
+d1 = [ln(S0 / X) + (rd - rf + 0.5 * sigma^2) * T] / (sigma * sqrt(T)).
+d2 = d1 - sigma * sqrt(T).
+N(x) denotes the standard normal cumulative distribution function.
+
+The fair value is calculated by discounting the payoff under the domestic risk-neutral measure:
+Fair Value = A * [exp(-rd * T) * N(d2) + (S0 / X) * exp(-rf * T) * N(-d1)].
+
+The delta with respect to the initial FX spot rate S0 is:
+Delta = (A / X) * exp(-rf * T) * N(-d1).
+
+The breakeven terminal spot rate satisfies Payoff = D:
+S_T* = X / (1 + c * T), assuming c * T > 0.
