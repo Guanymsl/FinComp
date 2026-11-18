@@ -1,0 +1,36 @@
+The time step of the n-step recombining trinomial tree is:
+dt = T / n.
+
+To align the up-and-out barrier H with a stock price level, choose the smallest lambda >= 1:
+h = floor(ln(H / S0) / (sigma * sqrt(dt))).
+lambda = ln(H / S0) / (h * sigma * sqrt(dt)), where h >= 1.
+
+The risk-neutral drift of the log stock price is:
+mu = r - q - 0.5 * sigma^2.
+
+The trinomial transition probabilities are:
+pu = 1 / (2 * lambda^2) + mu * sqrt(dt) / (2 * lambda * sigma).
+pm = 1 - 1 / lambda^2.
+pd = 1 / (2 * lambda^2) - mu * sqrt(dt) / (2 * lambda * sigma).
+
+The stock price at time step k and price level j is:
+S(k, j) = S0 * exp(j * lambda * sigma * sqrt(dt)).
+
+At maturity, the option value is:
+V(n, j) = 0 if S(n, j) >= H, and max(S(n, j) - X, 0) otherwise.
+
+The option is priced using backward induction with dynamic programming. At each node, the continuation value is:
+C(k, j) = exp(-r * dt) * [pu * V(k+1, j+1) + pm * V(k+1, j) + pd * V(k+1, j-1)].
+
+If S(k, j) >= H, the option immediately knocks out and its value is zero. Otherwise, at an exercise date:
+V(k, j) = max(S(k, j) - X, C(k, j)).
+
+At non-exercise dates:
+V(k, j) = C(k, j).
+
+A rolling array is used to store only the values of the next time step, reducing space complexity.
+
+The final option price is V(0, 0).
+
+Time complexity: O(n^2).
+Space complexity: O(n).
