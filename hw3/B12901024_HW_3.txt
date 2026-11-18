@@ -31,6 +31,3 @@ V(k, j) = C(k, j).
 A rolling array is used to store only the values of the next time step, reducing space complexity.
 
 The final option price is V(0, 0).
-
-Time complexity: O(n^2).
-Space complexity: O(n).
